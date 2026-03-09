@@ -228,6 +228,13 @@ SPECTACULAR_DEFAULTS: Dict[str, Any] = {
     'OAUTH2_TOKEN_URL': None,
     'OAUTH2_REFRESH_URL': None,
     'OAUTH2_SCOPES': None,
+
+    # Versioned documentation: when enabled, schema views serve from the
+    # database and the Swagger UI gains tabs for changes and releases.
+    'VERSIONED_DOCS_ENABLED': False,
+    # When True the schema endpoint serves the latest stored version.
+    # When False it falls back to live generation (original behaviour).
+    'VERSIONED_DOCS_SERVE_LATEST': True,
 }
 
 IMPORT_STRINGS = [

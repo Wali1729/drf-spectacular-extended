@@ -4,6 +4,7 @@ from importlib import import_module
 from typing import Any, Dict, List, Optional, Type
 
 from django.conf import settings
+from django.http import Http404, JsonResponse
 from django.templatetags.static import static
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
@@ -84,6 +85,15 @@ class SpectacularAPIView(APIView):
                 return self._get_schema_response(request)
 
     def _get_schema_response(self, request):
+        if spectacular_settings.VERSIONED_DOCS_ENABLED and spectacular_settings.VERSIONED_DOCS_SERVE_LATEST:
+            schema = self._get_versioned_schema(request)
+            if schema is not None:
+                version = self.api_version or request.version or self._get_version_parameter(request)
+                return Response(
+                    data=schema,
+                    headers={"Content-Disposition": f'inline; filename="{self._get_filename(request, version)}"'}
+                )
+
         # version specified as parameter to the view always takes precedence. after
         # that we try to source version through the schema view's own versioning_class.
         version = self.api_version or request.version or self._get_version_parameter(request)
@@ -92,6 +102,17 @@ class SpectacularAPIView(APIView):
             data=generator.get_schema(request=request, public=self.serve_public),
             headers={"Content-Disposition": f'inline; filename="{self._get_filename(request, version)}"'}
         )
+
+    def _get_versioned_schema(self, request):
+        from drf_spectacular.models import ApiDocumentationVersion
+
+        doc_version_str = request.GET.get('doc_version')
+        try:
+            if doc_version_str:
+                return ApiDocumentationVersion.objects.get(version=doc_version_str).schema
+            return ApiDocumentationVersion.objects.latest().schema
+        except ApiDocumentationVersion.DoesNotExist:
+            return None
 
     def _get_filename(self, request, version):
         return "{title}{version}.{suffix}".format(
@@ -128,29 +149,52 @@ class SpectacularSwaggerView(APIView):
     template_name: str = 'drf_spectacular/swagger_ui.html'
     template_name_js: str = 'drf_spectacular/swagger_ui.js'
     title: str = spectacular_settings.TITLE
+    versions_url_name: Optional[str] = 'schema-versions'
 
     @extend_schema(exclude=True)
     def get(self, request, *args, **kwargs):
+        data = {
+            'title': self.title,
+            'swagger_ui_css': self._swagger_ui_resource('swagger-ui.css'),
+            'swagger_ui_bundle': self._swagger_ui_resource('swagger-ui-bundle.js'),
+            'swagger_ui_standalone': self._swagger_ui_resource('swagger-ui-standalone-preset.js'),
+            'favicon_href': self._swagger_ui_favicon(),
+            'schema_url': self._get_schema_url(request),
+            'settings': self._dump(spectacular_settings.SWAGGER_UI_SETTINGS),
+            'oauth2_config': self._dump(spectacular_settings.SWAGGER_UI_OAUTH2_CONFIG),
+            'template_name_js': self.template_name_js,
+            'script_url': None,
+            'csrf_header_name': self._get_csrf_header_name(),
+            'schema_auth_names': self._dump(self._get_schema_auth_names()),
+            'versioned_docs_enabled': spectacular_settings.VERSIONED_DOCS_ENABLED,
+            'versions_url': self._get_versions_url(request),
+            'current_doc_version': self._get_current_doc_version(),
+        }
         return Response(
-            data={
-                'title': self.title,
-                'swagger_ui_css': self._swagger_ui_resource('swagger-ui.css'),
-                'swagger_ui_bundle': self._swagger_ui_resource('swagger-ui-bundle.js'),
-                'swagger_ui_standalone': self._swagger_ui_resource('swagger-ui-standalone-preset.js'),
-                'favicon_href': self._swagger_ui_favicon(),
-                'schema_url': self._get_schema_url(request),
-                'settings': self._dump(spectacular_settings.SWAGGER_UI_SETTINGS),
-                'oauth2_config': self._dump(spectacular_settings.SWAGGER_UI_OAUTH2_CONFIG),
-                'template_name_js': self.template_name_js,
-                'script_url': None,
-                'csrf_header_name': self._get_csrf_header_name(),
-                'schema_auth_names': self._dump(self._get_schema_auth_names()),
-            },
+            data=data,
             template_name=self.template_name,
             headers={
                 "Cross-Origin-Opener-Policy": "unsafe-none",
             }
         )
+
+    def _get_versions_url(self, request):
+        if not spectacular_settings.VERSIONED_DOCS_ENABLED or not self.versions_url_name:
+            return None
+        try:
+            return get_relative_url(reverse(self.versions_url_name, request=request))
+        except Exception:
+            return None
+
+    @staticmethod
+    def _get_current_doc_version():
+        if not spectacular_settings.VERSIONED_DOCS_ENABLED:
+            return None
+        from drf_spectacular.models import ApiDocumentationVersion
+        try:
+            return ApiDocumentationVersion.objects.latest().version
+        except ApiDocumentationVersion.DoesNotExist:
+            return None
 
     def _dump(self, data):
         return data if isinstance(data, str) else json.dumps(data, indent=2)
@@ -274,6 +318,50 @@ class SpectacularRedocView(APIView):
             lang=request.GET.get('lang'),
             version=request.GET.get('version')
         )
+
+
+class SpectacularVersionListView(APIView):
+    """List all stored documentation versions with their change summaries."""
+    permission_classes = spectacular_settings.SERVE_PERMISSIONS
+    authentication_classes = AUTHENTICATION_CLASSES
+
+    @extend_schema(exclude=True)
+    def get(self, request, *args, **kwargs):
+        from drf_spectacular.models import ApiDocumentationVersion
+
+        versions = ApiDocumentationVersion.objects.values(
+            'version', 'created_at', 'changes_summary',
+        )
+        data = [
+            {
+                'version': v['version'],
+                'created_at': v['created_at'].isoformat() if v['created_at'] else None,
+                'changes_summary': v['changes_summary'],
+            }
+            for v in versions
+        ]
+        return JsonResponse(data, safe=False)
+
+
+class SpectacularVersionDetailView(APIView):
+    """Return metadata and change summary for a single documentation version."""
+    permission_classes = spectacular_settings.SERVE_PERMISSIONS
+    authentication_classes = AUTHENTICATION_CLASSES
+
+    @extend_schema(exclude=True)
+    def get(self, request, version, *args, **kwargs):
+        from drf_spectacular.models import ApiDocumentationVersion
+
+        try:
+            doc = ApiDocumentationVersion.objects.get(version=version)
+        except ApiDocumentationVersion.DoesNotExist:
+            raise Http404(f'Documentation version "{version}" not found.')
+
+        return JsonResponse({
+            'version': doc.version,
+            'created_at': doc.created_at.isoformat() if doc.created_at else None,
+            'changes_summary': doc.changes_summary,
+        })
 
 
 class SpectacularSwaggerOauthRedirectView(RedirectView):

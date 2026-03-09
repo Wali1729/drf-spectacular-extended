@@ -7,7 +7,7 @@ import sys
 
 from setuptools import find_namespace_packages, setup
 
-name = 'drf-spectacular'
+name = 'drf_spectacular_extended'
 package = 'drf_spectacular'
 description = 'Sane and flexible OpenAPI 3 schema generation for Django REST framework'
 url = 'https://github.com/tfranzel/drf-spectacular'
