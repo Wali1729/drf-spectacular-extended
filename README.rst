@@ -1,6 +1,6 @@
-===============
-drf-spectacular
-===============
+=========================
+drf-spectacular (extended)
+=========================
 
 |build-status| |codecov| |docs| |pypi-version| |pypi-dl|
 
@@ -53,6 +53,10 @@ Features
 
 For more information visit the `documentation <https://drf-spectacular.readthedocs.io/>`_.
 
+This repository is an extended fork of `drf-spectacular` that is published on PyPI as
+``drf_spectacular_extended``. The Python import path and Django app name remain
+``drf_spectacular``.
+
 License
 -------
 
@@ -68,11 +72,11 @@ Requirements
 Installation
 ------------
 
-Install using ``pip``\ ...
+Install the extended fork using ``pip``\ ...
 
 .. code:: bash
 
-    $ pip install drf-spectacular
+    $ pip install drf_spectacular_extended
 
 then add drf-spectacular to installed apps in ``settings.py``
 
@@ -174,6 +178,82 @@ from your API. We also provide convenience wrappers for ``swagger-ui`` or ``redo
         path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
         path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     ]
+
+Versioned API documentation (extended)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The extended fork adds first-class support for **versioned documentation snapshots**
+with per-endpoint change tracking and an enhanced Swagger UI.
+
+Enable versioned docs in your Django settings:
+
+.. code:: python
+
+    SPECTACULAR_SETTINGS = {
+        'TITLE': 'Your Project API',
+        'DESCRIPTION': 'Your project description',
+        'VERSION': '1.0.0',
+        # enable the extended versioning features
+        'VERSIONED_DOCS_ENABLED': True,
+        # when True, the schema endpoint serves the latest stored snapshot
+        'VERSIONED_DOCS_SERVE_LATEST': True,
+    }
+
+Generate and store a snapshot of your OpenAPI schema with the management command:
+
+.. code:: bash
+
+    $ ./manage.py generate_doc_version --doc-version=1.0.0
+
+This will:
+
+* generate the schema using your configured generator and URLconf
+* compute a stable hash per endpoint (``METHOD:/path/``)
+* compare against the previous snapshot
+* store the full schema plus a summary of **new**, **modified** and **removed** endpoints
+
+You can repeat this whenever your API changes, e.g. during releases:
+
+.. code:: bash
+
+    $ ./manage.py generate_doc_version --doc-version=1.1.0
+
+To expose the stored versions and their change summaries over HTTP, wire up the
+additional views:
+
+.. code:: python
+
+    from drf_spectacular.views import (
+        SpectacularAPIView,
+        SpectacularRedocView,
+        SpectacularSwaggerView,
+        SpectacularVersionListView,
+        SpectacularVersionDetailView,
+    )
+
+    urlpatterns = [
+        # schema + UIs as before
+        path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+        path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+        path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+
+        # extended versioning API
+        path('api/schema/versions/', SpectacularVersionListView.as_view(), name='schema-versions'),
+        path(
+            'api/schema/versions/<str:version>/',
+            SpectacularVersionDetailView.as_view(),
+            name='schema-version-detail',
+        ),
+    ]
+
+When ``VERSIONED_DOCS_ENABLED`` is set, the Swagger UI gains:
+
+* a **version selector** to switch between stored snapshots (via ``doc_version`` parameter)
+* a **Changes** tab showing new / modified / removed endpoints for the selected version
+* a **Releases** tab listing all versions with change counts
+
+This allows you to see at a glance what changed between documentation releases while
+still serving a full OpenAPI document to client generators and other tooling.
 
 Usage
 -----
