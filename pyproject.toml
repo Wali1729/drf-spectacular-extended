@@ -1,7 +1,7 @@
 [project]
-name = "drf-spectacular"
+name = "drf-spectacular-extended"
 dynamic = ["version"]
-description = "Sane and flexible OpenAPI 3 schema generation for Django REST framework"
+description = "Extended fork of drf-spectacular: sane and flexible OpenAPI 3 schema generation for Django REST framework"
 readme = "README.rst"
 requires-python = ">=3.7"
 license = "BSD-3-Clause"
@@ -58,13 +58,13 @@ Source = "https://github.com/tfranzel/drf-spectacular"
 Documentation = "https://drf-spectacular.readthedocs.io"
 
 [tool.setuptools.dynamic]
-version = {attr = "drf_spectacular.__version__"}
+version = {attr = "drf_spectacular_extended.__version__"}
 
 [tool.setuptools.packages.find]
-include = ["drf_spectacular*"]
+include = ["drf_spectacular_extended*"]
 
 [tool.setuptools.package-data]
-drf_spectacular = [
+drf_spectacular_extended = [
     "py.typed",
     "validation/*.json",
     "templates/drf_spectacular/*.html",
