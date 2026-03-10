@@ -357,3 +357,16 @@ globally, and then simply run:
 tox
 ```
 
+## Release branches and CI/CD
+
+Releases for this package are driven by two protected branches:
+
+- `release`: merges into this branch run the full CI workflow and then publish the package to PyPI.
+- `test_release`: merges into this branch run the same CI workflow and publish the package to TestPyPI.
+
+Both branches are intended to be **protected** in GitHub:
+
+- direct pushes should be disallowed
+- changes should land only via pull requests
+- the `Required tests passed` check from `ci.yml` should be required before merging
+
