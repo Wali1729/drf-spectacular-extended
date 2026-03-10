@@ -63,15 +63,15 @@ class TestScopesBackend(BaseScopes):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_FLOWS',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_FLOWS',
     ['implicit']
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_REFRESH_URL',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_REFRESH_URL',
     'http://127.0.0.1:8000/o/refresh'
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_AUTHORIZATION_URL',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_AUTHORIZATION_URL',
     'http://127.0.0.1:8000/o/authorize'
 )
 @mock.patch(
@@ -101,15 +101,15 @@ def test_oauth2_toolkit(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_FLOWS',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_FLOWS',
     ['implicit']
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_REFRESH_URL',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_REFRESH_URL',
     'http://127.0.0.1:8000/o/refresh'
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_AUTHORIZATION_URL',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_AUTHORIZATION_URL',
     'http://127.0.0.1:8000/o/authorize'
 )
 @mock.patch(
@@ -136,19 +136,19 @@ def test_oauth2_toolkit_scopes_backend(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_SCOPES',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_SCOPES',
     {"read": "Read scope", "burn": "Burn scope"},
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_FLOWS',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_FLOWS',
     ['implicit']
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_REFRESH_URL',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_REFRESH_URL',
     'http://127.0.0.1:8000/o/refresh'
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.OAUTH2_AUTHORIZATION_URL',
+    'drf_spectacular_extended.settings.spectacular_settings.OAUTH2_AUTHORIZATION_URL',
     'http://127.0.0.1:8000/o/authorize'
 )
 @mock.patch(

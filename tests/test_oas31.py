@@ -3,12 +3,12 @@ from unittest import mock
 from rest_framework import serializers, viewsets
 from rest_framework.views import APIView
 
-from drf_spectacular.utils import extend_schema
+from drf_spectacular_extended.utils import extend_schema
 from tests import generate_schema
 from tests.models import SimpleModel
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
 def test_nullable_sub_serializer(no_warnings):
     class XSerializer(serializers.Serializer):
         f = serializers.FloatField(allow_null=True)
@@ -37,7 +37,7 @@ def test_nullable_sub_serializer(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
 def test_nullable_enum_resolution(no_warnings):
     class XSerializer(serializers.Serializer):
         foo = serializers.ChoiceField(
@@ -71,7 +71,7 @@ def test_nullable_enum_resolution(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
 def test_validator_addition_for_oas31(no_warnings):
 
     class XSerializer(serializers.Serializer):

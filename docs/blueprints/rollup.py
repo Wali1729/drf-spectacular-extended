@@ -1,7 +1,7 @@
-from drf_spectacular.contrib.rest_polymorphic import PolymorphicSerializerExtension
-from drf_spectacular.plumbing import ResolvedComponent
-from drf_spectacular.serializers import PolymorphicProxySerializerExtension
-from drf_spectacular.settings import spectacular_settings
+from drf_spectacular_extended.contrib.rest_polymorphic import PolymorphicSerializerExtension
+from drf_spectacular_extended.plumbing import ResolvedComponent
+from drf_spectacular_extended.serializers import PolymorphicProxySerializerExtension
+from drf_spectacular_extended.settings import spectacular_settings
 
 
 class RollupMixin:

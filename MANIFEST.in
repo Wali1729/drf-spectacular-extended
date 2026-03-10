@@ -1,9 +1,9 @@
 include *.rst
 include LICENSE
-include drf_spectacular/py.typed
-include drf_spectacular/validation/*.json
-include drf_spectacular/templates/drf_spectacular/*.html
-include drf_spectacular/templates/drf_spectacular/*.js
+include drf_spectacular_extended/py.typed
+include drf_spectacular_extended/validation/*.json
+include drf_spectacular_extended/templates/drf_spectacular_extended/*.html
+include drf_spectacular_extended/templates/drf_spectacular_extended/*.js
 include runtests.py
 graft tests
 recursive-exclude tests *_out.yml

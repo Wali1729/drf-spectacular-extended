@@ -3,10 +3,10 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
-from drf_spectacular.plumbing import get_relative_url, set_query_parameters
-from drf_spectacular.settings import spectacular_settings
-from drf_spectacular.utils import extend_schema
-from drf_spectacular.views import AUTHENTICATION_CLASSES
+from drf_spectacular_extended.plumbing import get_relative_url, set_query_parameters
+from drf_spectacular_extended.settings import spectacular_settings
+from drf_spectacular_extended.utils import extend_schema
+from drf_spectacular_extended.views import AUTHENTICATION_CLASSES
 
 
 class SpectacularElementsView(APIView):

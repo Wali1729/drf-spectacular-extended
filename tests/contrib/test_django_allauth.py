@@ -2,7 +2,7 @@ import pytest
 from rest_framework import permissions
 from rest_framework.views import APIView
 
-from drf_spectacular.utils import extend_schema
+from drf_spectacular_extended.utils import extend_schema
 from tests import generate_schema
 
 try:

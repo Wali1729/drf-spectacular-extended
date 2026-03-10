@@ -11,7 +11,7 @@ from django.urls import path
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 
-from drf_spectacular.utils import extend_schema
+from drf_spectacular_extended.utils import extend_schema
 from tests import assert_schema, generate_schema
 
 

@@ -18,7 +18,7 @@ Decorators
 ----------
 
 - :py:func:`@swagger_auto_schema <drf_yasg.utils.swagger_auto_schema>` is largely equivalent to
-  :py:func:`@extend_schema <drf_spectacular.utils.extend_schema>`.
+  :py:func:`@extend_schema <drf_spectacular_extended.utils.extend_schema>`.
 
   - ``operation_description`` argument is called ``description``
   - ``operation_summary`` argument is called ``summary``
@@ -37,41 +37,41 @@ Decorators
   - Additional arguments are also available: ``exclude``, ``operation``, ``versions``, ``examples``.
 
 - :py:func:`@swagger_serializer_method <drf_yasg.utils.swagger_serializer_method>` is equivalent to
-  :py:func:`@extend_schema_field <drf_spectacular.utils.extend_schema_field>`.
+  :py:func:`@extend_schema_field <drf_spectacular_extended.utils.extend_schema_field>`.
 
   - ``component_name`` can be provided to break the field out as a separate component.
 
-- :py:func:`@extend_schema_serializer <drf_spectacular.utils.extend_schema_serializer>` is available for overriding
+- :py:func:`@extend_schema_serializer <drf_spectacular_extended.utils.extend_schema_serializer>` is available for overriding
   behavior of serializers.
 
 - Instead of using :py:func:`@method_decorator <django.utils.decorators.method_decorator>`, use
-  :py:func:`@extend_schema_view <drf_spectacular.utils.extend_schema_view>`.
+  :py:func:`@extend_schema_view <drf_spectacular_extended.utils.extend_schema_view>`.
 
 - Instead of using ``swagger_schema_field``, use
-  :py:func:`@extend_schema_field <drf_spectacular.utils.extend_schema_field>` or
-  :py:func:`@extend_schema_serializer <drf_spectacular.utils.extend_schema_serializer>`.
+  :py:func:`@extend_schema_field <drf_spectacular_extended.utils.extend_schema_field>` or
+  :py:func:`@extend_schema_serializer <drf_spectacular_extended.utils.extend_schema_serializer>`.
 
 Helper Classes
 --------------
 
-- :py:class:`~drf_yasg.openapi.Parameter` is roughly equivalent to :py:class:`~drf_spectacular.utils.OpenApiParameter`.
+- :py:class:`~drf_yasg.openapi.Parameter` is roughly equivalent to :py:class:`~drf_spectacular_extended.utils.OpenApiParameter`.
 
   - ``in_`` argument is called ``location``.
   - ``schema`` argument should be passed as ``type``.
   - ``format`` argument is merged into ``type`` argument by using
-    :py:class:`OpenApiTypes <drf_spectacular.types.OpenApiTypes>`.
+    :py:class:`OpenApiTypes <drf_spectacular_extended.types.OpenApiTypes>`.
   - setting the ``many`` argument to ``True`` causes the argument to take an
     array of values, and generates a schema similar to using the drf_yasg
     ``Items`` class on the ``items`` property.  The type of the items in the
     array are defined by the ``type`` argument.
 
-- :py:class:`~drf_yasg.openapi.Response` is largely identical to :py:class:`~drf_spectacular.utils.OpenApiResponse`.
+- :py:class:`~drf_yasg.openapi.Response` is largely identical to :py:class:`~drf_spectacular_extended.utils.OpenApiResponse`.
 
   - ``schema`` argument is called ``response``
   - Order of arguments differs, so use keyword arguments.
 
-- :py:class:`~drf_spectacular.utils.OpenApiExample` is available for providing ``examples`` to
-  :py:func:`@extend_schema <drf_spectacular.utils.extend_schema>`.
+- :py:class:`~drf_spectacular_extended.utils.OpenApiExample` is available for providing ``examples`` to
+  :py:func:`@extend_schema <drf_spectacular_extended.utils.extend_schema>`.
 
 - :py:class:`~drf_yasg.openapi.Schema` is not required and can be eliminated. Use a plain :py:class:`dict` instead.
 
@@ -79,89 +79,89 @@ Types & Formats
 ---------------
 
 In place of separate ``drf_yasg.openapi.TYPE_*`` and ``drf_yasg.openapi.FORMAT_*`` constants, ``drf-spectacular``
-provides the :py:class:`~drf_spectacular.types.OpenApiTypes` enum:
+provides the :py:class:`~drf_spectacular_extended.types.OpenApiTypes` enum:
 
-- :py:data:`~drf_yasg.openapi.TYPE_BOOLEAN` is called :py:attr:`~drf_spectacular.types.OpenApiTypes.BOOL`, but you
+- :py:data:`~drf_yasg.openapi.TYPE_BOOLEAN` is called :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.BOOL`, but you
   can use :py:class:`bool`.
 
-- :py:data:`~drf_yasg.openapi.TYPE_FILE` should be replaced by :py:attr:`~drf_spectacular.types.OpenApiTypes.BINARY`
+- :py:data:`~drf_yasg.openapi.TYPE_FILE` should be replaced by :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.BINARY`
 
-- :py:data:`~drf_yasg.openapi.TYPE_INTEGER` is called :py:attr:`~drf_spectacular.types.OpenApiTypes.INT`, but you can
+- :py:data:`~drf_yasg.openapi.TYPE_INTEGER` is called :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.INT`, but you can
   use :py:class:`int`.
 - :py:data:`~drf_yasg.openapi.TYPE_INTEGER` with :py:data:`~drf_yasg.openapi.FORMAT_INT32` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.INT32`
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.INT32`
 - :py:data:`~drf_yasg.openapi.TYPE_INTEGER` with :py:data:`~drf_yasg.openapi.FORMAT_INT64` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.INT64`
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.INT64`
 
-- :py:data:`~drf_yasg.openapi.TYPE_NUMBER` is called :py:attr:`~drf_spectacular.types.OpenApiTypes.NUMBER`
+- :py:data:`~drf_yasg.openapi.TYPE_NUMBER` is called :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.NUMBER`
 - :py:data:`~drf_yasg.openapi.TYPE_NUMBER` with :py:data:`~drf_yasg.openapi.FORMAT_FLOAT` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.FLOAT`, but you can use :py:class:`float`.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.FLOAT`, but you can use :py:class:`float`.
 - :py:data:`~drf_yasg.openapi.TYPE_NUMBER` with :py:data:`~drf_yasg.openapi.FORMAT_DOUBLE` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.DOUBLE` (or :py:attr:`~drf_spectacular.types.OpenApiTypes.DECIMAL`,
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.DOUBLE` (or :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.DECIMAL`,
   but you can use :py:class:`~decimal.Decimal`)
 
-- :py:data:`~drf_yasg.openapi.TYPE_OBJECT` is called :py:attr:`~drf_spectacular.types.OpenApiTypes.OBJECT`, but you can
+- :py:data:`~drf_yasg.openapi.TYPE_OBJECT` is called :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.OBJECT`, but you can
   use :py:class:`dict`.
 
-- :py:data:`~drf_yasg.openapi.TYPE_STRING` is called :py:attr:`~drf_spectacular.types.OpenApiTypes.STR`, but you can
+- :py:data:`~drf_yasg.openapi.TYPE_STRING` is called :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.STR`, but you can
   use :py:class:`str`.
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_BASE64` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.BYTE` (which is base64 encoded).
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.BYTE` (which is base64 encoded).
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_BINARY` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.BINARY`, but you can use :py:class:`bytes`.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.BINARY`, but you can use :py:class:`bytes`.
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_DATETIME` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.DATETIME`, but you can use :py:class:`datetime.datetime`.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.DATETIME`, but you can use :py:class:`datetime.datetime`.
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_DATE` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.DATE`, but you can use :py:class:`datetime.date`.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.DATE`, but you can use :py:class:`datetime.date`.
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_EMAIL` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.EMAIL`
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.EMAIL`
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_IPV4` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.IP4`, but you can use :py:class:`ipaddress.IPv4Address`.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.IP4`, but you can use :py:class:`ipaddress.IPv4Address`.
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_IPV6` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.IP6`, but you can use :py:class:`ipaddress.IPv6Address`.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.IP6`, but you can use :py:class:`ipaddress.IPv6Address`.
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_PASSWORD` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.PASSWORD`
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.PASSWORD`
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_URI` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.URI`
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.URI`
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_UUID` is called
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.UUID`, but you can use :py:class:`uuid.UUID`.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.UUID`, but you can use :py:class:`uuid.UUID`.
 - :py:data:`~drf_yasg.openapi.TYPE_STRING` with :py:data:`~drf_yasg.openapi.FORMAT_SLUG` has no direct equivalent. Use
-  :py:attr:`~drf_spectacular.types.OpenApiTypes.STR` or :py:class:`str` instead.
+  :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.STR` or :py:class:`str` instead.
 
-- :py:data:`~drf_yasg.openapi.TYPE_ARRAY` is handled by providing :py:attr:`~drf_spectacular.utils.OpenApiParameter`
+- :py:data:`~drf_yasg.openapi.TYPE_ARRAY` is handled by providing :py:attr:`~drf_spectacular_extended.utils.OpenApiParameter`
   with ``many=True`` as a parameter. There is no need to set the ``items`` property
   on the parameter - the presence of ``many=True`` turns the parameter into an
   array parameter.
 
 - The following additional types are also available:
 
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.ANY` for which you can use :py:class:`typing.Any`.
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.DURATION` for which you can use :py:class:`datetime.timedelta`.
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.HOSTNAME`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.IDN_EMAIL`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.IDN_HOSTNAME`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.IRI_REF`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.IRI`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.JSON_PTR_REL`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.JSON_PTR`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.NONE` for which you can use :py:data:`None`.
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.REGEX`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.TIME` for which you can use :py:class:`datetime.time`.
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.URI_REF`
-  - :py:attr:`~drf_spectacular.types.OpenApiTypes.URI_TPL`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.ANY` for which you can use :py:class:`typing.Any`.
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.DURATION` for which you can use :py:class:`datetime.timedelta`.
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.HOSTNAME`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.IDN_EMAIL`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.IDN_HOSTNAME`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.IRI_REF`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.IRI`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.JSON_PTR_REL`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.JSON_PTR`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.NONE` for which you can use :py:data:`None`.
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.REGEX`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.TIME` for which you can use :py:class:`datetime.time`.
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.URI_REF`
+  - :py:attr:`~drf_spectacular_extended.types.OpenApiTypes.URI_TPL`
 
 Parameter Location
 ------------------
 
 ``drf_yasg.openapi.IN_*`` constants are roughly equivalent to constants defined on the
-:py:class:`~drf_spectacular.utils.OpenApiParameter` class:
+:py:class:`~drf_spectacular_extended.utils.OpenApiParameter` class:
 
-- :py:data:`~drf_yasg.openapi.IN_PATH` is called :py:attr:`~drf_spectacular.utils.OpenApiParameter.PATH`
-- :py:data:`~drf_yasg.openapi.IN_QUERY` is called :py:attr:`~drf_spectacular.utils.OpenApiParameter.QUERY`
-- :py:data:`~drf_yasg.openapi.IN_HEADER` is called :py:attr:`~drf_spectacular.utils.OpenApiParameter.HEADER`
+- :py:data:`~drf_yasg.openapi.IN_PATH` is called :py:attr:`~drf_spectacular_extended.utils.OpenApiParameter.PATH`
+- :py:data:`~drf_yasg.openapi.IN_QUERY` is called :py:attr:`~drf_spectacular_extended.utils.OpenApiParameter.QUERY`
+- :py:data:`~drf_yasg.openapi.IN_HEADER` is called :py:attr:`~drf_spectacular_extended.utils.OpenApiParameter.HEADER`
 - :py:data:`~drf_yasg.openapi.IN_BODY` and :py:data:`~drf_yasg.openapi.IN_FORM` have no direct equivalent.
   Instead you can use ``@extend_schema(request={"<media-type>": ...})``.
-- :py:attr:`~drf_spectacular.utils.OpenApiParameter.COOKIE` is also available.
+- :py:attr:`~drf_spectacular_extended.utils.OpenApiParameter.COOKIE` is also available.
 
 Docstring Parsing
 -----------------
@@ -170,7 +170,7 @@ Docstring Parsing
 
 It attempts to split the first line from the rest of the docstring to use as the operation summary, and the remainder
 is used as the operation description. *drf-spectacular* uses the entire docstring as the description. Use the
-``summary`` and ``description`` arguments of :py:func:`@extend_schema <drf_spectacular.utils.extend_schema>` instead.
+``summary`` and ``description`` arguments of :py:func:`@extend_schema <drf_spectacular_extended.utils.extend_schema>` instead.
 Optionally, the docstring can still be used to populate the operation description.
 
 .. code-block:: python
@@ -202,7 +202,7 @@ Optionally, the docstring can still be used to populate the operation descriptio
             ...
 
 In addition, *drf-yasg* also supports `named sections`__, but these are not supported by *drf-spectacular*. Again,
-use the ``summary`` and ``description`` arguments of :py:func:`@extend_schema <drf_spectacular.utils.extend_schema>`
+use the ``summary`` and ``description`` arguments of :py:func:`@extend_schema <drf_spectacular_extended.utils.extend_schema>`
 instead:
 
 __ https://www.django-rest-framework.org/coreapi/schemas/#schemas-as-documentation
@@ -245,7 +245,7 @@ In *drf-yasg* it was necessary to :doc:`manually describe authentication schemes
 
 In *drf-spectacular* there is support for auto-generating the security definitions for a number of authentication
 classes built in to DRF as well as other popular third-party packages.
-:py:class:`~drf_spectacular.extensions.OpenApiAuthenticationExtension` is available to help tie in custom
+:py:class:`~drf_spectacular_extended.extensions.OpenApiAuthenticationExtension` is available to help tie in custom
 authentication clasees -- see the :ref:`customization guide <customization_authentication_extension>`.
 
 Compatibility

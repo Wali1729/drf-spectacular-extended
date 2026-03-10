@@ -9,15 +9,15 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.test import APIClient
 
-from drf_spectacular.doc_versioning import (
+from drf_spectacular_extended.doc_versioning import (
     compute_changes,
     compute_endpoint_hashes,
     create_version_snapshot,
 )
-from drf_spectacular.models import ApiDocumentationVersion
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema
-from drf_spectacular.views import (
+from drf_spectacular_extended.models import ApiDocumentationVersion
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import extend_schema
+from drf_spectacular_extended.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
     SpectacularVersionDetailView,
@@ -264,8 +264,8 @@ class TestVersionDetailView:
 @pytest.mark.django_db
 @pytest.mark.urls(__name__)
 class TestVersionedSchemaServing:
-    @mock.patch('drf_spectacular.settings.spectacular_settings.VERSIONED_DOCS_ENABLED', True)
-    @mock.patch('drf_spectacular.settings.spectacular_settings.VERSIONED_DOCS_SERVE_LATEST', True)
+    @mock.patch('drf_spectacular_extended.settings.spectacular_settings.VERSIONED_DOCS_ENABLED', True)
+    @mock.patch('drf_spectacular_extended.settings.spectacular_settings.VERSIONED_DOCS_SERVE_LATEST', True)
     def test_serves_stored_schema(self):
         stored_schema = {**SAMPLE_SCHEMA, 'info': {'title': 'Stored', 'version': '1.0'}}
         ApiDocumentationVersion.objects.create(
@@ -278,8 +278,8 @@ class TestVersionedSchemaServing:
         data = json.loads(response.content)
         assert data['info']['title'] == 'Stored'
 
-    @mock.patch('drf_spectacular.settings.spectacular_settings.VERSIONED_DOCS_ENABLED', True)
-    @mock.patch('drf_spectacular.settings.spectacular_settings.VERSIONED_DOCS_SERVE_LATEST', True)
+    @mock.patch('drf_spectacular_extended.settings.spectacular_settings.VERSIONED_DOCS_ENABLED', True)
+    @mock.patch('drf_spectacular_extended.settings.spectacular_settings.VERSIONED_DOCS_SERVE_LATEST', True)
     def test_serves_specific_version(self):
         ApiDocumentationVersion.objects.create(
             version='v1.0', schema={**SAMPLE_SCHEMA, 'info': {'title': 'V1', 'version': '1'}},
@@ -295,7 +295,7 @@ class TestVersionedSchemaServing:
         data = json.loads(response.content)
         assert data['info']['title'] == 'V1'
 
-    @mock.patch('drf_spectacular.settings.spectacular_settings.VERSIONED_DOCS_ENABLED', False)
+    @mock.patch('drf_spectacular_extended.settings.spectacular_settings.VERSIONED_DOCS_ENABLED', False)
     def test_falls_back_to_live_generation(self):
         response = APIClient().get('/api/schema/', HTTP_ACCEPT='application/json')
         assert response.status_code == 200

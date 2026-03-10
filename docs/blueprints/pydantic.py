@@ -1,5 +1,5 @@
-from drf_spectacular.extensions import OpenApiSerializerExtension
-from drf_spectacular.plumbing import ResolvedComponent
+from drf_spectacular_extended.extensions import OpenApiSerializerExtension
+from drf_spectacular_extended.plumbing import ResolvedComponent
 
 from pydantic.schema import model_schema
 

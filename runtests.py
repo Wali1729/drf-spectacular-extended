@@ -11,9 +11,9 @@ PYTEST_ARGS = {
     'fast': ['tests', '-q'],
 }
 
-FLAKE8_ARGS = ['drf_spectacular', 'tests']
+FLAKE8_ARGS = ['drf_spectacular_extended', 'tests']
 
-MYPY_ARGS = ['--config-file=tox.ini', 'drf_spectacular', 'tests']
+MYPY_ARGS = ['--config-file=tox.ini', 'drf_spectacular_extended', 'tests']
 
 ISORT_ARGS = ['--check', '--diff', '.']
 

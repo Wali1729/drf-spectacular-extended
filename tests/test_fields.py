@@ -19,7 +19,7 @@ from rest_framework import serializers, viewsets
 from rest_framework.routers import SimpleRouter
 from rest_framework.test import APIClient
 
-from drf_spectacular.generators import SchemaGenerator
+from drf_spectacular_extended.generators import SchemaGenerator
 from tests import assert_equal, assert_schema, build_absolute_file_path
 
 if sys.version_info >= (3, 8):
@@ -305,7 +305,7 @@ def test_fields(no_warnings, django_transforms):
 
 
 @pytest.mark.urls(__name__)
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
 def test_fields_oas_3_1(no_warnings, django_transforms):
     assert_schema(
         SchemaGenerator().get_schema(request=None, public=True),

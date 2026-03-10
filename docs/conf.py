@@ -71,9 +71,9 @@ nitpick_ignore_regex = [
     ('py:class', r'rest_framework\..+'),
     ('py:class', r'django\.utils\.functional\.Promise'),
     # Internal undocumented objects.
-    ('py:class', r'drf_spectacular\.generators\..+'),
-    ('py:class', r'drf_spectacular\.plumbing\..+'),
-    ('py:class', r'drf_spectacular\.utils\.F'),
+    ('py:class', r'drf_spectacular_extended\.generators\..+'),
+    ('py:class', r'drf_spectacular_extended\.plumbing\..+'),
+    ('py:class', r'drf_spectacular_extended\.utils\.F'),
 ]
 
 intersphinx_mapping = {

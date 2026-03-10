@@ -4,8 +4,8 @@ from rest_framework import generics, pagination, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import (
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import (
     OpenApiExample, OpenApiParameter, OpenApiResponse, extend_schema, extend_schema_serializer,
 )
 from tests import assert_schema, generate_schema

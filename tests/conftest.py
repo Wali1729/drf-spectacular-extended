@@ -90,7 +90,7 @@ def pytest_configure(config):
             'rest_framework',
             'rest_framework.authtoken',
             *[app for app in contrib_apps if module_available(app)],
-            'drf_spectacular',
+            'drf_spectacular_extended',
             'tests',
         ),
         PASSWORD_HASHERS=(
@@ -102,7 +102,7 @@ def pytest_configure(config):
             'django.contrib.auth.hashers.CryptPasswordHasher',
         ),
         REST_FRAMEWORK={
-            'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+            'DEFAULT_SCHEMA_CLASS': 'drf_spectacular_extended.openapi.AutoSchema',
             'PAGE_SIZE': 10,
         },
         DEFAULT_AUTO_FIELD='django.db.models.AutoField',
@@ -176,7 +176,7 @@ def warnings(capsys):
 
 @pytest.fixture()
 def clear_generator_settings():
-    from drf_spectacular.drainage import GENERATOR_STATS
+    from drf_spectacular_extended.drainage import GENERATOR_STATS
     yield
     GENERATOR_STATS._trace_lineno = False
     GENERATOR_STATS._red = GENERATOR_STATS._blue = ''
@@ -185,7 +185,7 @@ def clear_generator_settings():
 
 @pytest.fixture()
 def clear_caches():
-    from drf_spectacular.plumbing import _load_enum_name_overrides, get_openapi_type_mapping
+    from drf_spectacular_extended.plumbing import _load_enum_name_overrides, get_openapi_type_mapping
     _load_enum_name_overrides.cache_clear()
     get_openapi_type_mapping.cache_clear()
     yield

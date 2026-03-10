@@ -29,7 +29,7 @@ Table of Contents
    contributing.rst
    changelog.rst
    license.rst
-   drf_spectacular.rst
+   drf_spectacular_extended.rst
 
 Indices and Tables
 ------------------
