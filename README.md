@@ -21,7 +21,7 @@ which is/was lacking all of the below listed features.
 ## Features
 
 - Serializers modelled as components (arbitrary nesting and recursion supported).
-- [`@extend_schema`](https://drf-spectacular.readthedocs.io/en/latest/drf_spectacular.html#drf_spectacular.utils.extend_schema) decorator for customization of APIView, Viewsets, function-based views, and `@action`
+- [`@extend_schema`](https://drf-spectacular.readthedocs.io/en/latest/drf_spectacular_extended.html#drf_spectacular_extended.utils.extend_schema) decorator for customization of APIView, Viewsets, function-based views, and `@action`
   - additional parameters
   - request/response serializer override (with status codes)
   - polymorphic responses either manually with `PolymorphicProxySerializer` helper or via `rest_polymorphic`'s PolymorphicSerializer)
@@ -58,7 +58,7 @@ For more information visit the [documentation](https://drf-spectacular.readthedo
 
 This repository is an extended fork of `drf-spectacular` that is published on PyPI as
 `drf_spectacular_extended`. The Python import path and Django app name remain
-`drf_spectacular`.
+`drf_spectacular_extended`.
 
 ## License
 
@@ -83,7 +83,7 @@ then add drf-spectacular to installed apps in `settings.py`:
 ```python
 INSTALLED_APPS = [
     # ALL YOUR APPS
-    'drf_spectacular',
+    'drf_spectacular_extended',
 ]
 ```
 
@@ -92,7 +92,7 @@ and finally register our spectacular `AutoSchema` with DRF:
 ```python
 REST_FRAMEWORK = {
     # YOUR SETTINGS
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular_extended.openapi.AutoSchema',
 }
 ```
 
@@ -123,8 +123,8 @@ pip install drf-spectacular[sidecar]
 ```python
 INSTALLED_APPS = [
     # ALL YOUR APPS
-    'drf_spectacular',
-    'drf_spectacular_sidecar',  # required for Django collectstatic discovery
+    'drf_spectacular_extended',
+    'drf_spectacular_extended_sidecar',  # required for Django collectstatic discovery
 ]
 SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
@@ -161,7 +161,7 @@ If you also want to validate your schema add the `--validate` flag. Or serve you
 from your API. We also provide convenience wrappers for `swagger-ui` or `redoc`.
 
 ```python
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_spectacular_extended.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
     # YOUR PATTERNS
@@ -214,7 +214,7 @@ To expose the stored versions and their change summaries over HTTP, wire up the
 additional views:
 
 ```python
-from drf_spectacular.views import (
+from drf_spectacular_extended.views import (
     SpectacularAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
@@ -262,8 +262,8 @@ pretty far with specifying `OpenApiParameter` and splitting request/response ser
 the sky is the limit.
 
 ```python
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-from drf_spectacular.types import OpenApiTypes
+from drf_spectacular_extended.utils import extend_schema, OpenApiParameter, OpenApiExample
+from drf_spectacular_extended.types import OpenApiTypes
 
 class AlbumViewset(viewset.ModelViewset):
     serializer_class = AlbumSerializer
@@ -356,4 +356,17 @@ globally, and then simply run:
 ```bash
 tox
 ```
+
+## Release branches and CI/CD
+
+Releases for this package are driven by two protected branches:
+
+- `release`: merges into this branch run the full CI workflow and then publish the package to PyPI.
+- `test_release`: merges into this branch run the same CI workflow and publish the package to TestPyPI.
+
+Both branches are intended to be **protected** in GitHub:
+
+- direct pushes should be disallowed
+- changes should land only via pull requests
+- the `Required tests passed` check from `ci.yml` should be required before merging
 

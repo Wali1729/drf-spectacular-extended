@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.test import APIClient
 
-from drf_spectacular.utils import extend_schema
-from drf_spectacular.views import SpectacularAPIView
+from drf_spectacular_extended.utils import extend_schema
+from drf_spectacular_extended.views import SpectacularAPIView
 
 
 def custom_hook(endpoints, **kwargs):

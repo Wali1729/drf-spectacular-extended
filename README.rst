@@ -17,7 +17,7 @@ which is/was lacking all of the below listed features.
 
 Features
     - Serializers modelled as components. (arbitrary nesting and recursion supported)
-    - `@extend_schema <https://drf-spectacular.readthedocs.io/en/latest/drf_spectacular.html#drf_spectacular.utils.extend_schema>`_ decorator for customization of APIView, Viewsets, function-based views, and ``@action``
+    - `@extend_schema <https://drf-spectacular.readthedocs.io/en/latest/drf_spectacular_extended.html#drf_spectacular_extended.utils.extend_schema>`_ decorator for customization of APIView, Viewsets, function-based views, and ``@action``
         - additional parameters
         - request/response serializer override (with status codes)
         - polymorphic responses either manually with ``PolymorphicProxySerializer`` helper or via ``rest_polymorphic``'s PolymorphicSerializer)
@@ -55,7 +55,7 @@ For more information visit the `documentation <https://drf-spectacular.readthedo
 
 This repository is an extended fork of `drf-spectacular` that is published on PyPI as
 ``drf_spectacular_extended``. The Python import path and Django app name remain
-``drf_spectacular``.
+``drf_spectacular_extended``.
 
 License
 -------
@@ -84,7 +84,7 @@ then add drf-spectacular to installed apps in ``settings.py``
 
     INSTALLED_APPS = [
         # ALL YOUR APPS
-        'drf_spectacular',
+        'drf_spectacular_extended',
     ]
 
 
@@ -94,7 +94,7 @@ and finally register our spectacular AutoSchema with DRF.
 
     REST_FRAMEWORK = {
         # YOUR SETTINGS
-        'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+        'DEFAULT_SCHEMA_CLASS': 'drf_spectacular_extended.openapi.AutoSchema',
     }
 
 drf-spectacular ships with sane `default settings <https://drf-spectacular.readthedocs.io/en/latest/settings.html>`_
@@ -128,8 +128,8 @@ these static files as a separate optional package. Usage is as follows:
 
     INSTALLED_APPS = [
         # ALL YOUR APPS
-        'drf_spectacular',
-        'drf_spectacular_sidecar',  # required for Django collectstatic discovery
+        'drf_spectacular_extended',
+        'drf_spectacular_extended_sidecar',  # required for Django collectstatic discovery
     ]
     SPECTACULAR_SETTINGS = {
         'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
@@ -170,7 +170,7 @@ from your API. We also provide convenience wrappers for ``swagger-ui`` or ``redo
 
 .. code:: python
 
-    from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+    from drf_spectacular_extended.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
     urlpatterns = [
         # YOUR PATTERNS
         path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
@@ -223,7 +223,7 @@ additional views:
 
 .. code:: python
 
-    from drf_spectacular.views import (
+    from drf_spectacular_extended.views import (
         SpectacularAPIView,
         SpectacularRedocView,
         SpectacularSwaggerView,
@@ -273,8 +273,8 @@ the sky is the limit.
 
 .. code:: python
 
-    from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-    from drf_spectacular.types import OpenApiTypes
+    from drf_spectacular_extended.utils import extend_schema, OpenApiParameter, OpenApiExample
+    from drf_spectacular_extended.types import OpenApiTypes
 
     class AlbumViewset(viewset.ModelViewset):
         serializer_class = AlbumSerializer

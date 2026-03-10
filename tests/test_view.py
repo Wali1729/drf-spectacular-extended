@@ -9,10 +9,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.test import APIClient
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema
-from drf_spectacular.validation import validate_schema
-from drf_spectacular.views import (
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import extend_schema
+from drf_spectacular_extended.validation import validate_schema
+from drf_spectacular_extended.views import (
     SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerOauthRedirectView,
     SpectacularSwaggerSplitView, SpectacularSwaggerView,
 )
@@ -113,7 +113,7 @@ def test_spectacular_view_accept_unknown(no_warnings):
 @pytest.mark.parametrize('ui', ['redoc', 'swagger-ui'])
 @pytest.mark.urls(__name__)
 def test_spectacular_ui_view(no_warnings, ui):
-    from drf_spectacular.settings import spectacular_settings
+    from drf_spectacular_extended.settings import spectacular_settings
     response = APIClient().get(f'/api/v2/schema/{ui}/')
     assert response.status_code == 200
     assert response.content.startswith(b'<!DOCTYPE html>')
@@ -140,7 +140,7 @@ def test_spectacular_swagger_ui_alternate(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.SWAGGER_UI_SETTINGS',
+    'drf_spectacular_extended.settings.spectacular_settings.SWAGGER_UI_SETTINGS',
     '{"deepLinking": true}'
 )
 @pytest.mark.urls(__name__)
@@ -190,7 +190,7 @@ def test_swagger_oauth_redirect_view(get_params):
     assert response.status_code == 302
     if isinstance(response, HttpResponseRedirect):
         # older django versions test client directly returns the response instance
-        assert response.url == '/static/drf_spectacular_sidecar/swagger-ui-dist/oauth2-redirect.html?' + get_params
+        assert response.url == '/static/drf_spectacular_extended_sidecar/swagger-ui-dist/oauth2-redirect.html?' + get_params
     else:
         assert response.headers['Location'] ==\
-               '/static/drf_spectacular_sidecar/swagger-ui-dist/oauth2-redirect.html?' + get_params
+               '/static/drf_spectacular_extended_sidecar/swagger-ui-dist/oauth2-redirect.html?' + get_params

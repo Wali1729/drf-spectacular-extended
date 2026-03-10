@@ -9,8 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.test import APIClient
 from rest_framework.versioning import AcceptHeaderVersioning
 
-from drf_spectacular.generators import SchemaGenerator
-from drf_spectacular.views import SpectacularAPIView
+from drf_spectacular_extended.generators import SchemaGenerator
+from drf_spectacular_extended.views import SpectacularAPIView
 from tests.models import SimpleModel, SimpleSerializer
 
 

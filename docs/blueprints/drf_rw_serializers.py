@@ -1,6 +1,6 @@
 from drf_rw_serializers.generics import GenericAPIView as RWGenericAPIView
 
-from drf_spectacular.openapi import AutoSchema
+from drf_spectacular_extended.openapi import AutoSchema
 
 
 class CustomAutoSchema(AutoSchema):

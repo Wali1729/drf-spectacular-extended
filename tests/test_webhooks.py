@@ -3,8 +3,8 @@ from unittest import mock
 import pytest
 from rest_framework import serializers
 
-from drf_spectacular.generators import SchemaGenerator
-from drf_spectacular.utils import OpenApiResponse, OpenApiWebhook, extend_schema
+from drf_spectacular_extended.generators import SchemaGenerator
+from drf_spectacular_extended.utils import OpenApiResponse, OpenApiWebhook, extend_schema
 from tests import assert_schema
 
 
@@ -34,8 +34,8 @@ subscription_event = OpenApiWebhook(
 
 
 @pytest.mark.urls(__name__)
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
-@mock.patch('drf_spectacular.settings.spectacular_settings.WEBHOOKS', [subscription_event])
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.WEBHOOKS', [subscription_event])
 def test_webhooks_settings(no_warnings):
     assert_schema(
         SchemaGenerator().get_schema(request=None, public=True),

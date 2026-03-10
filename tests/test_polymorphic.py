@@ -7,8 +7,8 @@ from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from drf_spectacular.openapi import AutoSchema
-from drf_spectacular.utils import (
+from drf_spectacular_extended.openapi import AutoSchema
+from drf_spectacular_extended.utils import (
     OpenApiParameter, PolymorphicProxySerializer, extend_schema, extend_schema_field,
 )
 from tests import assert_schema, generate_schema, get_request_schema, get_response_schema
@@ -275,7 +275,7 @@ def test_polymorphic_proxy_serializer_misusage(no_warnings):
         PolymorphicProxySerializer(**PROXY_SERIALIZER_PARAMS).to_internal_value(None)
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 @pytest.mark.parametrize('explicit', [True, False])
 def test_polymorphic_split_request_with_ro_serializer(no_warnings, explicit):
     class BasicPersonSerializer(serializers.ModelSerializer):

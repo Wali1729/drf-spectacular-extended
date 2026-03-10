@@ -23,14 +23,14 @@ from rest_framework.authentication import BasicAuthentication, TokenAuthenticati
 from rest_framework.decorators import action, api_view
 from rest_framework.views import APIView
 
-from drf_spectacular.extensions import OpenApiSerializerExtension
-from drf_spectacular.helpers import forced_singular_serializer
-from drf_spectacular.hooks import preprocess_exclude_path_format
-from drf_spectacular.openapi import AutoSchema
-from drf_spectacular.renderers import OpenApiJsonRenderer, OpenApiYamlRenderer
-from drf_spectacular.settings import IMPORT_STRINGS, SPECTACULAR_DEFAULTS
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import (
+from drf_spectacular_extended.extensions import OpenApiSerializerExtension
+from drf_spectacular_extended.helpers import forced_singular_serializer
+from drf_spectacular_extended.hooks import preprocess_exclude_path_format
+from drf_spectacular_extended.openapi import AutoSchema
+from drf_spectacular_extended.renderers import OpenApiJsonRenderer, OpenApiYamlRenderer
+from drf_spectacular_extended.settings import IMPORT_STRINGS, SPECTACULAR_DEFAULTS
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import (
     OpenApiExample, OpenApiParameter, OpenApiRequest, OpenApiResponse, extend_schema,
     extend_schema_field, extend_schema_serializer, extend_schema_view, inline_serializer,
 )
@@ -247,7 +247,7 @@ def test_free_form_responses(no_warnings):
 
 
 @mock.patch(
-    target='drf_spectacular.settings.spectacular_settings.APPEND_COMPONENTS',
+    target='drf_spectacular_extended.settings.spectacular_settings.APPEND_COMPONENTS',
     new={'schemas': {'SomeExtraComponent': {'type': 'integer'}}}
 )
 def test_append_extra_components(no_warnings):
@@ -521,7 +521,7 @@ def test_drf_format_suffix_parameter(no_warnings, allowed):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.PREPROCESSING_HOOKS',
+    'drf_spectacular_extended.settings.spectacular_settings.PREPROCESSING_HOOKS',
     [preprocess_exclude_path_format]
 )
 def test_drf_format_suffix_parameter_exclude(no_warnings):
@@ -739,7 +739,7 @@ def test_viewset_list_with_envelope(no_warnings):
     assert get_response_schema(operation_retrieve)['$ref'] == '#/components/schemas/EnvelopedX'
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_component_split_request():
     class XSerializer(serializers.Serializer):
         ro = serializers.IntegerField(read_only=True)
@@ -776,7 +776,7 @@ def test_list_api_view(no_warnings):
     assert get_response_schema(operation)['type'] == 'array'
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_file_field_duality_on_split_request(no_warnings):
     class XSerializer(serializers.Serializer):
         file = serializers.FileField()
@@ -797,7 +797,7 @@ def test_file_field_duality_on_split_request(no_warnings):
     assert schema['components']['schemas']['XRequest']['properties']['file']['format'] == 'binary'
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_component_split_nested_ro_wo_serializer(no_warnings):
     class RoSerializer(serializers.Serializer):
         ro_field = serializers.IntegerField(read_only=True)
@@ -819,7 +819,7 @@ def test_component_split_nested_ro_wo_serializer(no_warnings):
     assert len(schema['components']['schemas']['XRequest']['properties']) == 1
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_component_split_nested_explicit_ro_wo_serializer(no_warnings):
     class NestedSerializer(serializers.Serializer):
         field = serializers.IntegerField()
@@ -1128,7 +1128,7 @@ def test_inline_serializer(no_warnings):
     assert len(one_off_nested['properties']) == 2
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.CAMELIZE_NAMES', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.CAMELIZE_NAMES', True)
 def test_camelize_names(no_warnings):
     @extend_schema(responses=OpenApiTypes.FLOAT)
     @api_view(['GET'])
@@ -1249,11 +1249,11 @@ def test_pagination_disabled_on_action(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.SECURITY',
+    'drf_spectacular_extended.settings.spectacular_settings.SECURITY',
     [{'apiKeyAuth': []}]
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.APPEND_COMPONENTS',
+    'drf_spectacular_extended.settings.spectacular_settings.APPEND_COMPONENTS',
     {"securitySchemes": {"apiKeyAuth": {"type": "apiKey", "in": "header", "name": "Authorization"}}}
 )
 def test_manual_security_method_addition(no_warnings):
@@ -1736,7 +1736,7 @@ def test_parameter_sorting_setting(no_warnings, sorting, result):
         pass  # pragma: no cover
 
     with mock.patch(
-        'drf_spectacular.settings.spectacular_settings.SORT_OPERATION_PARAMETERS', sorting
+        'drf_spectacular_extended.settings.spectacular_settings.SORT_OPERATION_PARAMETERS', sorting
     ):
         schema = generate_schema('/x/', view_function=view_func)
         parameters = schema['paths']['/x/']['get']['parameters']
@@ -1760,7 +1760,7 @@ def test_operation_sorting_setting(no_warnings, sorting, result):
         path('/b/', view_func),
     ]
     with mock.patch(
-        'drf_spectacular.settings.spectacular_settings.SORT_OPERATIONS', sorting
+        'drf_spectacular_extended.settings.spectacular_settings.SORT_OPERATIONS', sorting
     ):
         schema = generate_schema(None, patterns=urlpatterns)
         assert list(schema['paths'].keys()) == result
@@ -1881,7 +1881,7 @@ def test_categorized_choices(no_warnings, clear_caches):
         queryset = M9.objects.none()
 
     with mock.patch(
-        'drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES',
+        'drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES',
         {'MediaEnum': media_choices}
     ):
         schema = generate_schema('x', XViewset)
@@ -1896,8 +1896,8 @@ def test_categorized_choices(no_warnings, clear_caches):
     ]
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.SCHEMA_PATH_PREFIX', '/api/v[0-9]/')
-@mock.patch('drf_spectacular.settings.spectacular_settings.SCHEMA_PATH_PREFIX_TRIM', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.SCHEMA_PATH_PREFIX', '/api/v[0-9]/')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.SCHEMA_PATH_PREFIX_TRIM', True)
 def test_schema_path_prefix_trim(no_warnings):
     @extend_schema(request=typing.Any, responses=typing.Any)
     @api_view(['POST'])
@@ -2256,7 +2256,7 @@ def test_serializer_method_field_with_functools_partial(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.ENABLE_LIST_MECHANICS_ON_NON_2XX', True
+    'drf_spectacular_extended.settings.spectacular_settings.ENABLE_LIST_MECHANICS_ON_NON_2XX', True
 )
 def test_disable_list_mechanics_on_non_2XX(no_warnings):
     @extend_schema(
@@ -2280,7 +2280,7 @@ def test_disable_list_mechanics_on_non_2XX(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.AUTHENTICATION_WHITELIST', [TokenAuthentication]
+    'drf_spectacular_extended.settings.spectacular_settings.AUTHENTICATION_WHITELIST', [TokenAuthentication]
 )
 def test_authentication_whitelist(no_warnings):
     class XViewset(viewsets.ReadOnlyModelViewSet):
@@ -2294,7 +2294,7 @@ def test_authentication_whitelist(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.AUTHENTICATION_WHITELIST', []
+    'drf_spectacular_extended.settings.spectacular_settings.AUTHENTICATION_WHITELIST', []
 )
 def test_authentication_empty_whitelist(no_warnings):
     class XViewset(viewsets.ReadOnlyModelViewSet):
@@ -2460,7 +2460,7 @@ def test_import_strings_in_default_settings(import_string):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.PATH_CONVERTER_OVERRIDES', {
+    'drf_spectacular_extended.settings.spectacular_settings.PATH_CONVERTER_OVERRIDES', {
         'int': str,  # override default behavior
         'signed_int': {'type': 'integer', 'format': 'signed'},
     }
@@ -2736,7 +2736,7 @@ def test_extend_schema_view_on_api_view(no_warnings):
     assert get_request_schema(op_post) == {'type': 'integer'}
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 @pytest.mark.parametrize('ro,wo', [(True, False), (False, True), (False, False)])
 def test_nested_empty_direction_serializer_with_split(no_warnings, ro, wo):
     class NestedSerializer(serializers.Serializer):
@@ -2763,7 +2763,7 @@ def test_nested_empty_direction_serializer_with_split(no_warnings, ro, wo):
         assert get_response_schema(operation) == {'$ref': '#/components/schemas/X'}
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 @pytest.mark.parametrize('ro,wo', [(True, False), (False, True), (False, False)])
 def test_empty_direction_list_serializer_with_split(no_warnings, ro, wo):
     class XSerializer(serializers.Serializer):
@@ -2787,7 +2787,7 @@ def test_empty_direction_list_serializer_with_split(no_warnings, ro, wo):
         assert get_response_schema(operation)['items'] == {'$ref': '#/components/schemas/X'}
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.SCHEMA_PATH_PREFIX_INSERT', '/service/backend')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.SCHEMA_PATH_PREFIX_INSERT', '/service/backend')
 def test_schema_path_prefix_insert(no_warnings):
     @extend_schema(responses=typing.Any)
     @api_view(['GET'])
@@ -2798,7 +2798,7 @@ def test_schema_path_prefix_insert(no_warnings):
     assert '/service/backend/v1/x/' in schema['paths']
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENFORCE_NON_BLANK_FIELDS', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENFORCE_NON_BLANK_FIELDS', True)
 def test_enforce_non_blank_fields(no_warnings):
     class XSerializer(serializers.Serializer):
         ro = serializers.CharField(read_only=True)
@@ -2858,8 +2858,8 @@ def test_catch_all_status_code_responses(no_warnings):
     assert list(schema['paths']['/x/']['get']['responses'].keys()) == ['2XX', '401', '4XX']
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.RENDERER_WHITELIST', [renderers.MultiPartRenderer])
-@mock.patch('drf_spectacular.settings.spectacular_settings.PARSER_WHITELIST', [parsers.MultiPartParser])
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.RENDERER_WHITELIST', [renderers.MultiPartRenderer])
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.PARSER_WHITELIST', [parsers.MultiPartParser])
 def test_renderer_parser_whitelist(no_warnings):
     class XSerializer(serializers.Serializer):
         field = serializers.CharField()
@@ -3000,7 +3000,7 @@ def test_many_parameter_item_enum(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.DEFAULT_QUERY_MANAGER', '_default_manager')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.DEFAULT_QUERY_MANAGER', '_default_manager')
 def test_custom_default_manager(no_warnings):
     class RelatedModelForCustomManager(models.Model):
         foo = models.Manager()
@@ -3145,7 +3145,7 @@ def test_serializer_method_docstring_precedence(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_GENERATE_CHOICE_DESCRIPTION', False)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_GENERATE_CHOICE_DESCRIPTION', False)
 def test_disable_enum_description_generation(no_warnings):
     class XSerializer(serializers.Serializer):
         foo = serializers.ChoiceField(choices=(('A', 'a'), ('B', 'b')))
@@ -3268,7 +3268,7 @@ def test_openapirequest_used_without_media_type_dict(no_warnings):
 
 
 @pytest.mark.skipif(DJANGO_VERSION < '3.0', reason='generic JSONField not available')
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
 def test_basic_oas_3_1_nullable_cases(no_warnings, django_transforms):
     class M14(models.Model):
         field_json = models.JSONField(null=True)  # case 1
@@ -3414,7 +3414,7 @@ def test_model_choice_display_method_on_readonly(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.OPERATION_ID_METHOD_POSITION', "PRE")
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OPERATION_ID_METHOD_POSITION', "PRE")
 def test_operation_id_method_position(no_warnings):
     class XViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = SimpleModel.objects.all()

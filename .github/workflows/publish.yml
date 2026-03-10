@@ -1,8 +1,11 @@
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+name: Release Python Package
 
-name: Release Python Package to PyPi
-
-on: [ workflow_dispatch ]
+on:
+  push:
+    branches:
+      - release
+      - test_release
+  workflow_dispatch:
 
 jobs:
   publish:

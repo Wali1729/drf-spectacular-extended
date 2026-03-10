@@ -1,7 +1,7 @@
 from django.conf import settings
 
-from drf_spectacular.extensions import OpenApiSerializerFieldExtension
-from drf_spectacular.plumbing import build_object_type
+from drf_spectacular_extended.extensions import OpenApiSerializerFieldExtension
+from drf_spectacular_extended.plumbing import build_object_type
 
 
 class TranslationsFieldFix(OpenApiSerializerFieldExtension):

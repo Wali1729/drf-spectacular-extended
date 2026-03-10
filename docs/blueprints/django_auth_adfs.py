@@ -1,5 +1,5 @@
-from drf_spectacular.extensions import OpenApiAuthenticationExtension
-from drf_spectacular.plumbing import build_bearer_security_scheme_object
+from drf_spectacular_extended.extensions import OpenApiAuthenticationExtension
+from drf_spectacular_extended.plumbing import build_bearer_security_scheme_object
 
 class AdfsAccessTokenAuthenticationScheme(OpenApiAuthenticationExtension):
     target_class = 'django_auth_adfs.rest_framework.AdfsAccessTokenAuthentication'

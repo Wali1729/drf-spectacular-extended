@@ -1048,7 +1048,7 @@ Breaking changes:
 
 Breaking changes:
 
-- ``drf_spectacular.hooks.postprocess_schema_enums`` moved from ``blumbing`` to ``hooks`` for consistency. Only relevant if ``POSTPROCESSING_HOOKS`` is explicitly set by user.
+- ``drf_spectacular_extended.hooks.postprocess_schema_enums`` moved from ``blumbing`` to ``hooks`` for consistency. Only relevant if ``POSTPROCESSING_HOOKS`` is explicitly set by user.
 - preprocessing hooks are currently experimental and may change on the next release.
 
 0.9.11 (2020-07-08)
@@ -1196,7 +1196,7 @@ Breaking changes:
 
 Breaking changes:
 
-- all extension base classes moved to ``drf_spectacular.extensions``
+- all extension base classes moved to ``drf_spectacular_extended.extensions``
 
 0.9.2 (2020-04-27)
 ------------------

@@ -63,7 +63,7 @@ Solution for Redoc:
     CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "fonts.googleapis.com")
     CSP_FONT_SRC = ("'self'", "fonts.gstatic.com")
 
-I cannot use :py:func:`@extend_schema <drf_spectacular.utils.extend_schema>` on library code
+I cannot use :py:func:`@extend_schema <drf_spectacular_extended.utils.extend_schema>` on library code
 --------------------------------------------------------------------------------------------
 
 You can easily adapt introspection for libraries/apps with the *Extension* mechanism.
@@ -163,8 +163,8 @@ set of values, and you want different names for them, this mechanism won't work.
 My endpoints use different serializers depending on the situation
 -----------------------------------------------------------------
 
-Welcome to the real world! Use :py:func:`@extend_schema <drf_spectacular.utils.extend_schema>`
-in combination with :py:class:`PolymorphicProxySerializer <drf_spectacular.utils.PolymorphicProxySerializer>`
+Welcome to the real world! Use :py:func:`@extend_schema <drf_spectacular_extended.utils.extend_schema>`
+in combination with :py:class:`PolymorphicProxySerializer <drf_spectacular_extended.utils.PolymorphicProxySerializer>`
 like so:
 
 .. code-block:: python
@@ -186,7 +186,7 @@ My authentication method is not supported
 -----------------------------------------
 
 You can easily specify a custom authentication with
-:py:class:`OpenApiAuthenticationExtension <drf_spectacular.extensions.OpenApiAuthenticationExtension>`.
+:py:class:`OpenApiAuthenticationExtension <drf_spectacular_extended.extensions.OpenApiAuthenticationExtension>`.
 Have a look at :ref:`customization` on how to use *Extensions*
 
 How can I i18n/internationalize my schema and UI?
@@ -356,7 +356,7 @@ How to correctly annotate function-based views that use ``@api_view()``
 
 DRF provides a convenient way to write function-based views. ``@api_view()`` in essence wraps a regular
 function and implicitly converts it to a ``APIView`` class. For single-method cases, simply use
-:py:func:`@extend_schema <drf_spectacular.utils.extend_schema>` just as you would with a normal view method.
+:py:func:`@extend_schema <drf_spectacular_extended.utils.extend_schema>` just as you would with a normal view method.
 
 .. code-block:: python
 
@@ -365,7 +365,7 @@ function and implicitly converts it to a ``APIView`` class. For single-method ca
     def view_func(request, format=None):
         return ...
 
-For functions that provide multiple methods, its advisable to use :py:func:`@extend_schema_view <drf_spectacular.utils.extend_schema_view>`
+For functions that provide multiple methods, its advisable to use :py:func:`@extend_schema_view <drf_spectacular_extended.utils.extend_schema_view>`
 and break down each case separately.
 
 .. code-block:: python
@@ -445,12 +445,12 @@ this method. Using ``ApiView`` or ``GenericAPIView`` for this use-case would be 
 However, if you insist on this behavior, you can circumvent the list detection by
 creating a one-off copy of your serializer and marking it as forced non-list.
 It is important to create a **copy** as
-:py:func:`@extend_schema_serializer <drf_spectacular.utils.extend_schema_serializer>`
+:py:func:`@extend_schema_serializer <drf_spectacular_extended.utils.extend_schema_serializer>`
 modifies the given serializer.
 
 .. code-block:: python
 
-    from drf_spectacular.helpers import forced_singular_serializer
+    from drf_spectacular_extended.helpers import forced_singular_serializer
 
     class YourViewSet(viewsets.ModelViewSet):
         serializer_class = SimpleSerializer
@@ -471,7 +471,7 @@ To work around this, use ``lazy_serializer`` to lazily load the ``Serializer``.
 
 .. code-block:: python
 
-    from drf_spectacular.helpers import lazy_serializer
+    from drf_spectacular_extended.helpers import lazy_serializer
 
     class BoxSerializer(ModelSerializer):
         nested_boxes = SerializerMethodField()

@@ -5,9 +5,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.test import APIClient
 
-from drf_spectacular.generators import SchemaGenerator
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular_extended.generators import SchemaGenerator
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import extend_schema, extend_schema_view
 from tests import assert_schema
 
 

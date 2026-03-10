@@ -1,9 +1,9 @@
-from drf_spectacular.extensions import OpenApiSerializerFieldExtension
-from drf_spectacular.openapi import AutoSchema
-from drf_spectacular.plumbing import append_meta
-from drf_spectacular.plumbing import build_basic_type
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import Direction
+from drf_spectacular_extended.extensions import OpenApiSerializerFieldExtension
+from drf_spectacular_extended.openapi import AutoSchema
+from drf_spectacular_extended.plumbing import append_meta
+from drf_spectacular_extended.plumbing import build_basic_type
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import Direction
 
 
 class Base64FileFieldSchema(OpenApiSerializerFieldExtension):

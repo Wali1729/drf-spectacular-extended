@@ -26,7 +26,7 @@ transforms = [
 
 @pytest.mark.skipif(dj_rest_auth_version < "5" and allauth_version >= "0.55.0", reason='')
 @pytest.mark.contrib('dj_rest_auth', 'allauth')
-@mock.patch('drf_spectacular.settings.spectacular_settings.SCHEMA_PATH_PREFIX', '')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.SCHEMA_PATH_PREFIX', '')
 def test_rest_auth(no_warnings):
     urlpatterns = [
         path('rest-auth/', include('dj_rest_auth.urls')),
@@ -40,7 +40,7 @@ def test_rest_auth(no_warnings):
 
 @pytest.mark.skipif(dj_rest_auth_version < "5" and allauth_version >= "0.55.0", reason='')
 @pytest.mark.contrib('dj_rest_auth', 'allauth', 'rest_framework_simplejwt')
-@mock.patch('drf_spectacular.settings.spectacular_settings.SCHEMA_PATH_PREFIX', '')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.SCHEMA_PATH_PREFIX', '')
 @mock.patch('dj_rest_auth.app_settings.api_settings.USE_JWT', True)
 def test_rest_auth_token(no_warnings, settings):
     # flush module import cache to re-evaluate conditional import

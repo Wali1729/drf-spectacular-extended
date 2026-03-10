@@ -5,9 +5,9 @@ from rest_framework import mixins, serializers, viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 
-from drf_spectacular.openapi import AutoSchema
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import (
+from drf_spectacular_extended.openapi import AutoSchema
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import (
     OpenApiParameter, extend_schema, extend_schema_field, extend_schema_serializer,
 )
 from tests import assert_schema, generate_schema, get_response_schema
@@ -232,7 +232,7 @@ def test_extend_schema(no_warnings):
     )
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
 def test_extend_schema_field_with_dict_oas_3_1(no_warnings):
     @extend_schema_field({"type": "string"})
     class CustomField(serializers.CharField):
@@ -257,7 +257,7 @@ def test_extend_schema_field_with_dict_oas_3_1(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.OAS_VERSION', '3.1.0')
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.OAS_VERSION', '3.1.0')
 def test_extend_schema_field_with_schema_as_oas_3_1(no_warnings):
     @extend_schema_field({'type': ['string', 'integer']})
     class CustomField(serializers.CharField):

@@ -18,13 +18,13 @@ from django.urls import include, path
 from django.utils.functional import lazystr
 from rest_framework import generics, serializers
 
-from drf_spectacular.openapi import AutoSchema
-from drf_spectacular.plumbing import (
+from drf_spectacular_extended.openapi import AutoSchema
+from drf_spectacular_extended.plumbing import (
     analyze_named_regex_pattern, build_basic_type, build_choice_field, detype_pattern,
     follow_field_source, force_instance, get_doc, get_list_serializer, get_relative_url, is_field,
     is_serializer, resolve_type_hint, safe_ref, set_query_parameters,
 )
-from drf_spectacular.validation import validate_schema
+from drf_spectacular_extended.validation import validate_schema
 from tests import generate_schema
 
 

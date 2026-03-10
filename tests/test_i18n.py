@@ -10,9 +10,9 @@ from rest_framework import __version__ as DRF_VERSION
 from rest_framework import mixins, routers, serializers, viewsets
 from rest_framework.test import APIClient
 
-from drf_spectacular.utils import extend_schema
-from drf_spectacular.validation import validate_schema
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from drf_spectacular_extended.utils import extend_schema
+from drf_spectacular_extended.validation import validate_schema
+from drf_spectacular_extended.views import SpectacularAPIView, SpectacularSwaggerView
 from tests import assert_schema, generate_schema
 
 TRANSPORT_CHOICES = (
@@ -64,7 +64,7 @@ urlpatterns = [
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.DESCRIPTION',
+    'drf_spectacular_extended.settings.spectacular_settings.DESCRIPTION',
     _('Lazy translated description with missing translation')
 )
 @pytest.mark.skipif(DRF_VERSION < '3.16.1', reason='DRF updated translations')
@@ -102,7 +102,7 @@ def test_i18n_schema_ui(no_warnings):
     assert b'/api/schema/?lang\\u003Dde' in response.content
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
     'SpecialLanguageEnum': TRANSPORT_CHOICES
 })
 @pytest.mark.urls(__name__)

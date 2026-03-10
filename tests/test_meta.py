@@ -40,7 +40,7 @@ META = {
 
 
 def build_settings_mock(name):
-    return (f'drf_spectacular.settings.spectacular_settings.{name}', META[name])
+    return (f'drf_spectacular_extended.settings.spectacular_settings.{name}', META[name])
 
 
 @mock.patch(*build_settings_mock('TITLE'))

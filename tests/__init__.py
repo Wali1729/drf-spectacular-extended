@@ -2,7 +2,7 @@ import difflib
 import json
 import os
 
-from drf_spectacular.validation import validate_schema
+from drf_spectacular_extended.validation import validate_schema
 
 
 def build_absolute_file_path(relative_path):
@@ -13,7 +13,7 @@ def build_absolute_file_path(relative_path):
 
 
 def assert_schema(schema, reference_filename, transforms=None, reverse_transforms=None):
-    from drf_spectacular.renderers import OpenApiJsonRenderer, OpenApiYamlRenderer
+    from drf_spectacular_extended.renderers import OpenApiJsonRenderer, OpenApiYamlRenderer
 
     schema_yml = OpenApiYamlRenderer().render(schema, renderer_context={})
     # render also a json and provoke serialization issues
@@ -66,7 +66,7 @@ def generate_schema(route, viewset=None, view=None, view_function=None, patterns
     from rest_framework import routers
     from rest_framework.viewsets import ViewSetMixin
 
-    from drf_spectacular.generators import SchemaGenerator
+    from drf_spectacular_extended.generators import SchemaGenerator
 
     if viewset:
         assert issubclass(viewset, ViewSetMixin)

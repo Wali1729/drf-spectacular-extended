@@ -5,7 +5,7 @@ from typing import List
 import pytest
 from rest_framework.views import APIView
 
-from drf_spectacular.utils import extend_schema
+from drf_spectacular_extended.utils import extend_schema
 from tests import assert_schema, generate_schema
 
 try:
