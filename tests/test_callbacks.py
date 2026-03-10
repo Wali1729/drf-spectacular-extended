@@ -3,7 +3,7 @@ from unittest import mock
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 
-from drf_spectacular.utils import OpenApiCallback, OpenApiResponse, extend_schema, inline_serializer
+from drf_spectacular_extended.utils import OpenApiCallback, OpenApiResponse, extend_schema, inline_serializer
 from tests import assert_schema, generate_schema
 from tests.models import SimpleModel, SimpleSerializer
 
@@ -90,7 +90,7 @@ def test_callbacks(no_warnings):
     )
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_callbacks_split_request(no_warnings):
     assert_schema(
         generate_schema('/x', XViewset),

@@ -8,7 +8,7 @@ import sys
 from setuptools import find_namespace_packages, setup
 
 name = 'drf_spectacular_extended'
-package = 'drf_spectacular'
+package = 'drf_spectacular_extended'
 description = 'Sane and flexible OpenAPI 3 schema generation for Django REST framework'
 url = 'https://github.com/tfranzel/drf-spectacular'
 author = 'T. Franzel'
@@ -55,7 +55,7 @@ if sys.argv[-1] == 'publish':
         sys.exit(1)
     shutil.rmtree('dist')
     shutil.rmtree('build')
-    shutil.rmtree('drf_spectacular.egg-info')
+    shutil.rmtree('drf_spectacular_extended.egg-info')
     sys.exit()
 
 

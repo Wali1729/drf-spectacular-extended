@@ -26,7 +26,7 @@ def test_command_parameterized(clear_generator_settings):
             '--validate',
             '--fail-on-warn',
             '--lang=de',
-            '--generator-class=drf_spectacular.generators.SchemaGenerator',
+            '--generator-class=drf_spectacular_extended.generators.SchemaGenerator',
             '--file=' + fh.name,
         )
         schema = yaml.load(fh.read(), Loader=yaml.SafeLoader)
@@ -87,4 +87,4 @@ def test_command_check_fail(capsys):
     management.call_command('check', '--deploy')
     stdout = capsys.readouterr().err
     assert 'System check identified some issues' in stdout
-    assert 'drf_spectacular.W002' in stdout
+    assert 'drf_spectacular_extended.W002' in stdout

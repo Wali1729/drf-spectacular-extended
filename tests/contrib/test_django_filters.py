@@ -8,8 +8,8 @@ from django.urls import include, path
 from rest_framework import generics, routers, serializers, viewsets
 from rest_framework.test import APIClient
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiExample, extend_schema, extend_schema_field
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import OpenApiExample, extend_schema, extend_schema_field
 from tests import assert_schema, generate_schema
 from tests.models import SimpleModel, SimpleSerializer
 

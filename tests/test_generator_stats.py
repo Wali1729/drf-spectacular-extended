@@ -2,7 +2,7 @@ import inspect
 
 import pytest
 
-from drf_spectacular.drainage import GENERATOR_STATS
+from drf_spectacular_extended.drainage import GENERATOR_STATS
 
 
 def test_known_attribute_access_succeeds():

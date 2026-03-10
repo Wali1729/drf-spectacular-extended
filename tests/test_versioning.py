@@ -10,10 +10,10 @@ from rest_framework import generics, mixins, routers, serializers, viewsets
 from rest_framework.test import APIClient, APIRequestFactory
 from rest_framework.versioning import AcceptHeaderVersioning, NamespaceVersioning, URLPathVersioning
 
-from drf_spectacular.generators import SchemaGenerator
-from drf_spectacular.utils import extend_schema
-from drf_spectacular.validation import validate_schema
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from drf_spectacular_extended.generators import SchemaGenerator
+from drf_spectacular_extended.utils import extend_schema
+from drf_spectacular_extended.validation import validate_schema
+from drf_spectacular_extended.views import SpectacularAPIView, SpectacularSwaggerView
 from tests import assert_schema
 from tests.models import SimpleModel
 
@@ -256,7 +256,7 @@ def test_spectacular_versioning_info_object_variations(no_warnings):
     response = APIClient().get('/api/schema/')
     assert b'version: 0.0.0\n' in response.content
 
-    with mock.patch('drf_spectacular.settings.spectacular_settings.VERSION', None):
+    with mock.patch('drf_spectacular_extended.settings.spectacular_settings.VERSION', None):
         response = APIClient().get('/api/nv/v2/schema/')
         assert b'version: v2\n' in response.content
         response = APIClient().get('/api/schema/')

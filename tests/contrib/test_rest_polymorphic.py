@@ -6,7 +6,7 @@ from django.db import models
 from rest_framework import serializers, viewsets
 from rest_framework.renderers import JSONRenderer
 
-from drf_spectacular.helpers import lazy_serializer
+from drf_spectacular_extended.helpers import lazy_serializer
 from tests import assert_schema, generate_schema
 
 try:
@@ -94,7 +94,7 @@ def test_rest_polymorphic(no_warnings):
 
 
 @pytest.mark.contrib('polymorphic', 'rest_polymorphic')
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_rest_polymorphic_split_request_with_ro_serializer(no_warnings):
     schema = generate_schema('persons', PersonViewSet)
     components = schema['components']['schemas']

@@ -13,8 +13,8 @@ if sys.version_info >= (3, 9):
 else:
     from typing_extensions import TypedDict
 
-from drf_spectacular.contrib.djangorestframework_camel_case import camelize_serializer_fields
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular_extended.contrib.djangorestframework_camel_case import camelize_serializer_fields
+from drf_spectacular_extended.utils import OpenApiParameter, extend_schema
 from tests import assert_schema, generate_schema
 
 
@@ -66,7 +66,7 @@ class FakeViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.POSTPROCESSING_HOOKS',
+    'drf_spectacular_extended.settings.spectacular_settings.POSTPROCESSING_HOOKS',
     [camelize_serializer_fields]
 )
 @mock.patch(
@@ -91,7 +91,7 @@ def test_camelize_serializer_fields(no_warnings):
     create=True
 )
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.POSTPROCESSING_HOOKS',
+    'drf_spectacular_extended.settings.spectacular_settings.POSTPROCESSING_HOOKS',
     [camelize_serializer_fields]
 )
 @mock.patch(

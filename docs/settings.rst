@@ -7,7 +7,7 @@ Settings are configurable in ``settings.py`` in the scope ``SPECTACULAR_SETTINGS
 You can override any setting, otherwise the defaults below are used.
 
 
-.. literalinclude:: ../drf_spectacular/settings.py
+.. literalinclude:: ../drf_spectacular_extended/settings.py
    :start-after: APISettings
    :end-before: IMPORT_STRINGS
 
@@ -40,7 +40,7 @@ Example: SwaggerUI settings
 
 We currently support passing through all basic SwaggerUI `configuration parameters <https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/>`_.
 For more customization options (e.g. CSS, JS functions), you can extend or override the
-`SwaggerUI template <https://github.com/tfranzel/drf-spectacular/blob/master/drf_spectacular/templates/drf_spectacular/swagger_ui.html>`_
+`SwaggerUI template <https://github.com/tfranzel/drf-spectacular/blob/master/drf_spectacular_extended/templates/drf_spectacular_extended/swagger_ui.html>`_
 in your project files.
 
 .. code:: python

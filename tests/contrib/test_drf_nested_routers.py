@@ -62,7 +62,7 @@ def test_drf_nested_routers_basic_example(no_warnings, coerce_suffix, transforms
         queryset = Child.objects.all()
 
     with mock.patch(
-            'drf_spectacular.settings.spectacular_settings.SCHEMA_COERCE_PATH_PK_SUFFIX',
+            'drf_spectacular_extended.settings.spectacular_settings.SCHEMA_COERCE_PATH_PK_SUFFIX',
             coerce_suffix
     ):
         assert_schema(

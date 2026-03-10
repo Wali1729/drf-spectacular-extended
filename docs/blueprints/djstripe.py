@@ -2,8 +2,8 @@ from djstripe.contrib.rest_framework.serializers import (
     CreateSubscriptionSerializer, SubscriptionSerializer
 )
 
-from drf_spectacular.extensions import OpenApiViewExtension
-from drf_spectacular.utils import extend_schema
+from drf_spectacular_extended.extensions import OpenApiViewExtension
+from drf_spectacular_extended.utils import extend_schema
 
 
 class FixDjstripeSubscriptionRestView(OpenApiViewExtension):

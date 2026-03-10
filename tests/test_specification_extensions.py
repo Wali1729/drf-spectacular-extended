@@ -5,19 +5,19 @@ from rest_framework import serializers
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.views import APIView
 
-from drf_spectacular.contrib.django_oauth_toolkit import DjangoOAuthToolkitScheme
-from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_serializer
+from drf_spectacular_extended.contrib.django_oauth_toolkit import DjangoOAuthToolkitScheme
+from drf_spectacular_extended.utils import OpenApiParameter, extend_schema, extend_schema_serializer
 from tests import generate_schema, get_request_schema, get_response_schema
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.EXTENSIONS_INFO', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.EXTENSIONS_INFO', {
     'x-logo': {
         'altText': 'Django REST Framework Logo',
         'backgroundColor': "#ffffff",
         'url': 'https://www.django-rest-framework.org/img/logo.png',
     },
 })
-@mock.patch('drf_spectacular.settings.spectacular_settings.EXTENSIONS_ROOT', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.EXTENSIONS_ROOT', {
     'x-tagGroups': [{'name': 'Foo', 'tags': ['bar', 'baz']}]
 })
 def test_root_info_spec_extensions(no_warnings):

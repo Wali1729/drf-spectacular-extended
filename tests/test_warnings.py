@@ -10,8 +10,8 @@ from rest_framework.decorators import action, api_view
 from rest_framework.schemas import AutoSchema as DRFAutoSchema
 from rest_framework.views import APIView
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import (
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import (
     OpenApiParameter, OpenApiRequest, PolymorphicProxySerializer, extend_schema, extend_schema_view,
     inline_serializer,
 )
@@ -329,7 +329,7 @@ def test_polymorphic_proxy_serializer_misconfig(capsys, resource_type_field_name
 
 
 def test_warning_operation_id_on_extend_schema_view(capsys):
-    from drf_spectacular.drainage import GENERATOR_STATS
+    from drf_spectacular_extended.drainage import GENERATOR_STATS
 
     @extend_schema(operation_id='Invalid', responses=int)
     class XAPIView(APIView):
@@ -424,7 +424,7 @@ def test_warning_missing_lookup_field_on_model_serializer(capsys):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.PATH_CONVERTER_OVERRIDES', {'int': object}
+    'drf_spectacular_extended.settings.spectacular_settings.PATH_CONVERTER_OVERRIDES', {'int': object}
 )
 def test_invalid_path_converter_override(capsys):
     @extend_schema(responses=OpenApiTypes.FLOAT)

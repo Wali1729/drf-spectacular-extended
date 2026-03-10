@@ -15,8 +15,8 @@ except ImportError:
     TextChoices = object  # type: ignore  # django < 3.0 handling
     IntegerChoices = object  # type: ignore  # django < 3.0 handling
 
-from drf_spectacular.plumbing import _load_enum_name_overrides, list_hash, load_enum_name_overrides
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular_extended.plumbing import _load_enum_name_overrides, list_hash, load_enum_name_overrides
+from drf_spectacular_extended.utils import OpenApiParameter, extend_schema
 from tests import assert_schema, generate_schema
 
 language_choices = (
@@ -113,7 +113,7 @@ def test_postprocessing(no_warnings):
 
 
 @mock.patch(
-    'drf_spectacular.settings.spectacular_settings.ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE', False
+    'drf_spectacular_extended.settings.spectacular_settings.ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE', False
 )
 def test_no_blank_and_null_in_enum_choices(no_warnings):
     schema = generate_schema('a', AViewset)
@@ -122,7 +122,7 @@ def test_no_blank_and_null_in_enum_choices(no_warnings):
     assert 'oneOf' not in schema['components']['schemas']['B']['properties']['language']
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
     'LanguageEnum': 'tests.test_postprocessing.language_choices'
 })
 def test_global_enum_naming_override(no_warnings, clear_caches):
@@ -140,7 +140,7 @@ def test_global_enum_naming_override(no_warnings, clear_caches):
     assert len(schema['components']['schemas']) == 2
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
     'LanguageEnum': 'tests.test_postprocessing.LanguageStrEnumWithCallable.as_choices'
 })
 def test_global_enum_naming_override_callable(no_warnings, clear_caches):
@@ -157,7 +157,7 @@ def test_global_enum_naming_override_callable(no_warnings, clear_caches):
     assert len(schema['components']['schemas']) == 2
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
     'LanguageEnum': 'tests.test_postprocessing.blank_null_language_choices'
 })
 def test_global_enum_naming_override_with_blank_and_none(no_warnings, clear_caches):
@@ -243,8 +243,8 @@ def test_resolvable_enum_collision(no_warnings):
     assert 'YFooEnum' in schema['components']['schemas']
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_PATCH', True)
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_PATCH', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_enum_resolvable_collision_with_patched_and_request_splits():
     class XSerializer(serializers.Serializer):
         foo = serializers.ChoiceField(choices=[('A', 'A')])
@@ -286,7 +286,7 @@ def test_enum_override_variations(no_warnings):
 
     for variation, expected_hashed_keys in enum_override_variations:
         with mock.patch(
-            'drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES',
+            'drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES',
             {'LanguageEnum': f'tests.test_postprocessing.{variation}'}
         ):
             _load_enum_name_overrides.cache_clear()
@@ -308,7 +308,7 @@ def test_enum_override_variations_with_blank_and_null(no_warnings):
 
     for variation, expected_hashed_keys in enum_override_variations:
         with mock.patch(
-            'drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES',
+            'drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES',
             {'LanguageEnum': f'tests.test_postprocessing.{variation}'}
         ):
             _load_enum_name_overrides.cache_clear()
@@ -316,7 +316,7 @@ def test_enum_override_variations_with_blank_and_null(no_warnings):
             assert list_hash(expected_hashed_keys) in load_enum_name_overrides()
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
     'LanguageEnum': 'tests.test_postprocessing.NOTEXISTING'
 })
 def test_enum_override_loading_fail(capsys, clear_caches):
@@ -416,7 +416,7 @@ def test_equal_choices_different_semantics(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_NAME_OVERRIDES', {
     'VoteChoices': 'tests.test_postprocessing.vote_choices'
 })
 def test_enum_suffix(no_warnings, clear_caches):
@@ -424,7 +424,7 @@ def test_enum_suffix(no_warnings, clear_caches):
     # check variations of suffix
     enum_suffix_variations = ['Type', 'Enum', 'Testing', '']
     for variation in enum_suffix_variations:
-        with mock.patch('drf_spectacular.settings.spectacular_settings.ENUM_SUFFIX', variation):
+        with mock.patch('drf_spectacular_extended.settings.spectacular_settings.ENUM_SUFFIX', variation):
             schema = generate_schema('a', AViewset)
 
             assert f'Null{variation}' in schema['components']['schemas']

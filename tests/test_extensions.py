@@ -8,20 +8,20 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from drf_spectacular.extensions import (
+from drf_spectacular_extended.extensions import (
     OpenApiAuthenticationExtension, OpenApiSerializerExtension, OpenApiSerializerFieldExtension,
     OpenApiViewExtension,
 )
-from drf_spectacular.plumbing import (
+from drf_spectacular_extended.plumbing import (
     ResolvedComponent, build_array_type, build_basic_type, build_object_type, force_instance,
 )
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import Direction, extend_schema, extend_schema_field, extend_schema_view
+from drf_spectacular_extended.types import OpenApiTypes
+from drf_spectacular_extended.utils import Direction, extend_schema, extend_schema_field, extend_schema_view
 from tests import generate_schema, get_response_schema
 from tests.models import SimpleModel, SimpleSerializer
 
 if TYPE_CHECKING:
-    from drf_spectacular.openapi import AutoSchema
+    from drf_spectacular_extended.openapi import AutoSchema
 
 
 class Base64Field(fields.Field):
@@ -230,7 +230,7 @@ def test_serializer_list_extension(no_warnings):
     }
 
 
-@mock.patch('drf_spectacular.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
+@mock.patch('drf_spectacular_extended.settings.spectacular_settings.COMPONENT_SPLIT_REQUEST', True)
 def test_serializer_envelope_through_extension(no_warnings):
     class EnvelopeMixin:
         pass
